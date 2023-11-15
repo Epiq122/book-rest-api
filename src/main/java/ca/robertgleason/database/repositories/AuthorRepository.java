@@ -1,6 +1,6 @@
 package ca.robertgleason.database.repositories;
 
-import ca.robertgleason.database.entities.Author;
+import ca.robertgleason.database.domain.entities.Author;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

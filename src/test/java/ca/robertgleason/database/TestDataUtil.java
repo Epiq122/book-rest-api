@@ -1,7 +1,7 @@
 package ca.robertgleason.database;
 
-import ca.robertgleason.database.entities.Author;
-import ca.robertgleason.database.entities.Book;
+import ca.robertgleason.database.domain.entities.Author;
+import ca.robertgleason.database.domain.entities.Book;
 
 public final class TestDataUtil {
     private TestDataUtil() {

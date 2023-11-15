@@ -2,7 +2,7 @@ package ca.robertgleason.database.repositories;
 
 
 import ca.robertgleason.database.TestDataUtil;
-import ca.robertgleason.database.entities.Author;
+import ca.robertgleason.database.domain.entities.Author;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

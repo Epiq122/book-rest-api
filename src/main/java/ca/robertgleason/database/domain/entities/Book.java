@@ -1,4 +1,4 @@
-package ca.robertgleason.database.entities;
+package ca.robertgleason.database.domain.entities;
 
 
 import jakarta.persistence.*;
