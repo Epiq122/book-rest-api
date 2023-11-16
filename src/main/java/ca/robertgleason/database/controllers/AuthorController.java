@@ -7,12 +7,10 @@ import ca.robertgleason.database.mappers.Mapper;
 import ca.robertgleason.database.services.AuthorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -39,7 +37,13 @@ public class AuthorController {
         List<Author> authors = authorService.findAll();
         return authors.stream().map(authorMapper::mapTo).collect(Collectors.toList());
 
-
     }
 
+    @GetMapping("/authors/{id}")
+    public ResponseEntity<AuthorDto> getAuthor(@PathVariable Long id) {
+        Optional<Author> foundAuthor = authorService.findOne(id);
+        return foundAuthor.map(author -> new ResponseEntity<>(authorMapper.mapTo(author), HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }
+
