@@ -2,6 +2,8 @@ package ca.robertgleason.database;
 
 import ca.robertgleason.database.domain.entities.Author;
 import ca.robertgleason.database.domain.entities.Book;
+import ca.robertgleason.database.domain.entities.dto.AuthorDto;
+import ca.robertgleason.database.domain.entities.dto.BookDto;
 
 public final class TestDataUtil {
     private TestDataUtil() {
@@ -52,6 +54,15 @@ public final class TestDataUtil {
         return Book.builder()
                 .isbn("622-1566-1-36-13-2")
                 .title("Jelously Orchestrate")
+                .author(author)
+                .build();
+    }
+
+
+    public static BookDto createTestBookDtoA(final AuthorDto author) {
+        return BookDto.builder()
+                .isbn("9-116-6-66-11-2")
+                .title("Jumbo Joe")
                 .author(author)
                 .build();
     }
