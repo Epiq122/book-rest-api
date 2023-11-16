@@ -7,10 +7,10 @@ import ca.robertgleason.database.mappers.Mapper;
 import ca.robertgleason.database.services.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class BookController {
@@ -32,6 +32,12 @@ public class BookController {
         return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
 
 
+    }
+
+    @GetMapping("/books")
+    public List<BookDto> listBooks() {
+        List<Book> books = bookService.findAll();
+        return books.stream().map(bookMapper::mapTo).collect(Collectors.toList());
     }
 
 
