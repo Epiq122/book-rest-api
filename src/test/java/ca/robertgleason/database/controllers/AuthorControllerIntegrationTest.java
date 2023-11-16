@@ -3,6 +3,7 @@ package ca.robertgleason.database.controllers;
 
 import ca.robertgleason.database.TestDataUtil;
 import ca.robertgleason.database.domain.entities.Author;
+import ca.robertgleason.database.services.AuthorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -24,15 +26,19 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc
 public class AuthorControllerIntegrationTest {
 
+    private AuthorService authorService;
+
     private final MockMvc mockMvc;
 
     private final ObjectMapper objectMapper;
 
 
     @Autowired
-    public AuthorControllerIntegrationTest(MockMvc mockMvc) {
+    public AuthorControllerIntegrationTest(MockMvc mockMvc, AuthorService authorService
+    ) {
         this.mockMvc = mockMvc;
         this.objectMapper = new ObjectMapper();
+        this.authorService = authorService;
     }
 
 
@@ -67,7 +73,33 @@ public class AuthorControllerIntegrationTest {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.age").value(66)
         );
+    }
 
+
+    @Test
+    public void testThatListAuthorsReturnsHttpStatus200() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/authors")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
+
+    @Test
+    public void testThatListAuthorsReturnsListOfAuthors() throws Exception {
+        Author testAuthorA = TestDataUtil.createTestAuthorA();
+        authorService.createAuthor(testAuthorA);
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/authors")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].name").value("Hershal Grove")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].age").value(66)
+        );
 
     }
 
